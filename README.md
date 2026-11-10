@@ -39,20 +39,22 @@ No primeiro terminal, entre na pasta do backend.
 cd .\backend
 ```
 
-Configure as variáveis abaixo no mesmo terminal, substituindo os valores de exemplo pelos dados do seu ambiente. O comando de `JWT_SECRET` gera uma chave aleatória para assinar os tokens de acesso.
+Preencha o arquivo `backend/.env` com os dados do Oracle e do administrador. O Spring Boot carrega esse arquivo ao iniciar pela pasta `backend`. A chave `JWT_SECRET` já foi gerada no arquivo.
+
+```dotenv
+DB_USERNAME=GYMPLUS
+DB_PASSWORD=SUA_SENHA_DO_ORACLE
+JWT_SECRET=SUA_CHAVE_ALEATORIA_COM_PELO_MENOS_32_CARACTERES
+ADMIN_NOME=Nome do administrador
+ADMIN_CPF=CPF_DO_ADMINISTRADOR
+ADMIN_TELEFONE=TELEFONE_DO_ADMINISTRADOR
+ADMIN_EMAIL=admin@academia.com
+ADMIN_SENHA=SUA_SENHA_DO_ADMINISTRADOR
+```
+
+Escreva os valores diretamente após `=`, sem aspas. Depois de preencher o arquivo, inicie o backend.
 
 ```powershell
-$env:DB_USERNAME = "GYMPLUS"
-$env:DB_PASSWORD = "SUA_SENHA_DO_ORACLE"
-
-$env:JWT_SECRET = [guid]::NewGuid().ToString('N') + [guid]::NewGuid().ToString('N')
-
-$env:ADMIN_NOME = "Nome do administrador"
-$env:ADMIN_CPF = "CPF_DO_ADMINISTRADOR"
-$env:ADMIN_TELEFONE = "TELEFONE_DO_ADMINISTRADOR"
-$env:ADMIN_EMAIL = "admin@academia.com"
-$env:ADMIN_SENHA = "SUA_SENHA_DO_ADMINISTRADOR"
-
 .\mvnw.cmd spring-boot:run
 ```
 
@@ -66,7 +68,7 @@ Na primeira inicialização, o sistema cria o administrador com os dados informa
 
 `ADMIN_EMAIL` e `ADMIN_SENHA` precisam estar preenchidos em cada inicialização. Nome, CPF e telefone são exigidos quando a conta inicial precisa ser criada.
 
-As variáveis definidas com `$env:` valem para o terminal atual. Ao abrir outro terminal, configure-as novamente antes de iniciar o backend. A chave `JWT_SECRET` deve ter pelo menos 32 caracteres. Se gerar outra chave, entre novamente no sistema para obter um token válido.
+As configurações ficam salvas em `backend/.env`. Variáveis já definidas com `$env:` no terminal têm prioridade sobre o arquivo. A chave `JWT_SECRET` deve ter pelo menos 32 caracteres. Se alterar a chave, entre novamente no sistema para obter um token válido. Reinicie o backend após editar o arquivo.
 
 ## 3. Iniciar o frontend
 
@@ -112,7 +114,7 @@ Pressione `Ctrl + C` no terminal do frontend e no terminal do backend.
 | Problema | O que conferir |
 | --- | --- |
 | Erro de conexão com o Oracle | Verifique se o banco e o serviço estão iniciados, se a URL está correta e se `DB_USERNAME` e `DB_PASSWORD` correspondem ao usuário/schema. |
-| Erro sobre variáveis ou administrador inicial | Configure as variáveis no mesmo terminal em que executa o backend. Preencha todos os dados `ADMIN_*` para criar o primeiro administrador. |
+| Erro sobre variáveis ou administrador inicial | Confira o arquivo `backend/.env` e inicie o backend pela pasta `backend`. Preencha todos os dados `ADMIN_*` para criar o primeiro administrador. |
 | Erro de compilação relacionado à versão do Java | Confira `java -version` e a instalação apontada por `JAVA_HOME`. O projeto utiliza Java 21. |
 | Erro de versão do Node.js | Confira `node -v` e utilize uma das versões indicadas nos pré-requisitos. |
 | Porta `8080` ou `3000` ocupada | Encerre a execução anterior do projeto ou o processo que está usando a porta e inicie novamente. |
